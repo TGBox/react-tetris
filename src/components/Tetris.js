@@ -22,7 +22,7 @@ const Tetris = () => {
   const [gameOver, setGameOver] = useState(false);
 
   // Using our custom hooks to create a player and a stage with the user as initial useState.
-  const [player, updatePlayerPos, resetPlayer] = usePlayer();
+  const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
   const [stage, setStage] = useStage(player, resetPlayer);
 
   // Handles player movement on the horizontal axis.
@@ -64,13 +64,19 @@ const Tetris = () => {
   // Handles the key inputs from the player.
   const move = ({ keyCode }) => {
     if(!gameOver) {
-      if(keyCode === 37) {  // Left arrow key.
+      if(keyCode === 37) {  
+        // Left arrow key to move left.
         movePlayer(-1);
-      } else if(keyCode === 39) { // Right arrow key.
+      } else if(keyCode === 39) { 
+        // Right arrow key to move right.
         movePlayer(1);
-      } else if(keyCode === 40) { // Down arrow key.
+      } else if(keyCode === 40) { 
+        // Down arrow key to drop down fast.
         dropPlayer();
-      }
+      } else if(keyCode === 38) { 
+        // Up arrow key for clockwise rotation.
+        playerRotate(stage, 1);
+      } 
     }
   };
 

@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { STAGE_WIDTH } from "../gameHelpers";
+import { checkForCollision, STAGE_WIDTH } from "../gameHelpers";
 import { TETRISBLOCKS, randomTetrisblock } from "../tetrisblocks";
 
 // Handles the player's state within the game.
@@ -9,6 +9,42 @@ export const usePlayer = () => {
     tetrisblocks: TETRISBLOCKS[0].shape,
     collided: false,
   });
+
+  // Handles the rotation of a given tetrisblock matrix in the correct direction.
+  const rotate = (matrix, dir) => {
+    // Rows get transposed to columns.
+    const rotatedMatrix = matrix.map((_, index) => 
+      matrix.map(col => col[index]),
+    );
+    // Reverse each row to get a rotated matrix.
+    if(dir > 0) {
+      // Clockwise rotation.
+      return rotatedMatrix.map(row => row.reverse());
+    } else {
+      // Anticlockwise rotation.
+      return rotatedMatrix.reverse();
+    }
+  };
+
+  // Will rotate the tetrisblock of the player in the game.
+  const playerRotate = (stage, dir) => {
+    const clonedPlayer = JSON.parse(JSON.stringify(player));
+    clonedPlayer.tetrisblocks = rotate(clonedPlayer.tetrisblocks, dir);
+    // Position collision check on rotation.
+    const pos = clonedPlayer.pos.x;
+    let offset = 1;
+    while(checkForCollision(clonedPlayer, stage, { x: 0, y: 0})){
+      clonedPlayer.pos.x += offset;
+      offset = -(offset + (offset > 0 ? 1 : -1));
+      if (offset > clonedPlayer.tetrisblocks[0].length) {
+        rotate(clonedPlayer.tetrisblocks, -dir);
+        clonedPlayer.pos.x = pos;
+        return;
+      }
+    }
+
+    setPlayer(clonedPlayer);
+  };
 
   // Updates the player position with the values provided.
   const updatePlayerPos = ({ x, y, collided }) => {
@@ -28,5 +64,5 @@ export const usePlayer = () => {
     });
   }, []);
 
-  return [player, updatePlayerPos, resetPlayer];
+  return [player, updatePlayerPos, resetPlayer, playerRotate];
 };
