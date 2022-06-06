@@ -10,8 +10,7 @@ export const useStage = (player, resetPlayer) => {
     setRowsCleared(0);
 
     // Handles deleting of filled rows an refilling of the stage array.
-    const sweepRows = newStage => {
-      // Checks if any cell in the row from our stage is 0. If not, it counts our score up and readds a row.
+    const sweepRows = newStage => 
       newStage.reduce((accumulated, row) => {
         if(row.findIndex(cell => cell[0] === 0) === -1) {
           setRowsCleared(prev => prev + 1);
@@ -21,7 +20,6 @@ export const useStage = (player, resetPlayer) => {
         accumulated.push(row);
         return accumulated;
       }, []);
-    }
 
     // Is inside of the useEffect because we won't use it somewhere else.
     const updateStage = prevStage => {

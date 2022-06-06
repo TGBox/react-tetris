@@ -7,6 +7,7 @@ import { createStage, checkForCollision} from "../gameHelpers";
 import { StyledTetrisWrapper, StyledTetris } from "./styles/StyledTetris";
 
 // Custom Hooks.
+import { useInterval } from "../hooks/useInterval";
 import { usePlayer } from "../hooks/usePlayer";
 import { useStage } from "../hooks/useStage";
 
@@ -23,7 +24,7 @@ const Tetris = () => {
 
   // Using our custom hooks to create a player and a stage with the user as initial useState.
   const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
-  const [stage, setStage] = useStage(player, resetPlayer);
+  const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
 
   // Handles player movement on the horizontal axis.
   const movePlayer = dir => {
@@ -36,6 +37,7 @@ const Tetris = () => {
   const startGame = () => {
     // Reset everything.
     setStage(createStage());
+    setDropTime(1000);
     resetPlayer();
     setGameOver(false);
   };
@@ -55,8 +57,20 @@ const Tetris = () => {
     }
   };
 
+  // Handles the restarting of the implicit drop timer when the down key is released.
+  const keyUp = ({ keyCode }) => {
+    if(!gameOver) {
+      if(keyCode === 40) {
+        console.log("interval on");
+        setDropTime(1000);
+      }
+    }
+  };
+
   // Handles the press of the down arrow key to speed up the falling tetris block.
   const dropPlayer = () => {
+    console.log("interval off");
+    // Will stop the implicit dropping.
     setDropTime(null);
     drop();
   };
@@ -80,8 +94,13 @@ const Tetris = () => {
     }
   };
 
+  // Hook to handle a single implicit drop with the current interval.
+  useInterval(() => {
+    drop(); 
+  }, dropTime);
+
   return (
-    <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)}>
+    <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)} onKeyUp={keyUp}>
       <StyledTetris>
         <Stage stage={stage} />
         <aside>
