@@ -6,7 +6,7 @@ import { TETRISBLOCKS, randomTetrisblock } from "../tetrisblocks";
 export const usePlayer = () => {
   const [player, setPlayer] = useState({
     pos: { x: 0, y: 0 },
-    tetrisblock: TETRISBLOCKS[0].shape,
+    tetrisblocks: TETRISBLOCKS[0].shape,
     collided: false,
   });
 
@@ -22,10 +22,10 @@ export const usePlayer = () => {
   // Resets the player of the game. Creates new object with the default values.
   const resetPlayer = useCallback(() => {
     setPlayer({
-      pos: { x: STAGE_WIDTH / 2 - 2, y: 0},
-      tetrisblock: randomTetrisblock().shape,
+      pos: { x: STAGE_WIDTH / 2 - 2, y: 0 },
+      tetrisblocks: randomTetrisblock().shape,
       collided: false,
-    })
+    });
   }, []);
 
   return [player, updatePlayerPos, resetPlayer];

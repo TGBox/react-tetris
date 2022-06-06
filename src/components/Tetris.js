@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // Creates new stage.
-import { createStage } from "../gameHelpers";
+import { createStage, checkForCollision} from "../gameHelpers";
 
 // Styled components.
 import { StyledTetrisWrapper, StyledTetris } from "./styles/StyledTetris";
@@ -23,13 +23,13 @@ const Tetris = () => {
 
   // Using our custom hooks to create a player and a stage with the user as initial useState.
   const [player, updatePlayerPos, resetPlayer] = usePlayer();
-  const [stage, setStage] = useStage(player);
-
-  console.log("re-render");
+  const [stage, setStage] = useStage(player, resetPlayer);
 
   // Handles player movement on the horizontal axis.
   const movePlayer = dir => {
-    updatePlayerPos({ x: dir, y: 0 });
+    if(!checkForCollision(player, stage, { x: dir, y: 0})) {
+      updatePlayerPos({ x: dir, y: 0 });
+    }
   };
 
   // Handles the start of a new game.
@@ -37,11 +37,22 @@ const Tetris = () => {
     // Reset everything.
     setStage(createStage());
     resetPlayer();
+    setGameOver(false);
   };
 
   // Moves the current block downwards.
   const drop = () => {
-    updatePlayerPos({ x: 0, y: 1 , collided: false});
+    if(!checkForCollision(player, stage, { x: 0, y: 1})) {
+      updatePlayerPos({ x: 0, y: 1, collided: false });
+    } else {
+      // Game Over condition.
+      if(player.pos.y < 1) {
+        console.log("GAME OVER!");
+        setGameOver(true);
+        setDropTime(null);
+      }
+      updatePlayerPos({ x: 0, y: 0, collided: true });
+    }
   };
 
   // Handles the press of the down arrow key to speed up the falling tetris block.
