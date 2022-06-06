@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+// Creates new stage.
+import { createStage } from "../gameHelpers";
+
 // Styled components.
 import { StyledTetrisWrapper, StyledTetris } from "./styles/StyledTetris";
 
@@ -19,12 +22,48 @@ const Tetris = () => {
   const [gameOver, setGameOver] = useState(false);
 
   // Using our custom hooks to create a player and a stage with the user as initial useState.
-  const [player] = usePlayer();
+  const [player, updatePlayerPos, resetPlayer] = usePlayer();
   const [stage, setStage] = useStage(player);
 
-  console.log("rerenderer.");
+  console.log("re-render");
+
+  // Handles player movement on the horizontal axis.
+  const movePlayer = dir => {
+    updatePlayerPos({ x: dir, y: 0 });
+  };
+
+  // Handles the start of a new game.
+  const startGame = () => {
+    // Reset everything.
+    setStage(createStage());
+    resetPlayer();
+  };
+
+  // Moves the current block downwards.
+  const drop = () => {
+    updatePlayerPos({ x: 0, y: 1 , collided: false});
+  };
+
+  // Handles the press of the down arrow key to speed up the falling tetris block.
+  const dropPlayer = () => {
+    drop();
+  };
+
+  // Handles the key inputs from the player.
+  const move = ({ keyCode }) => {
+    if(!gameOver) {
+      if(keyCode === 37) {  // Left arrow key.
+        movePlayer(-1);
+      } else if(keyCode === 39) { // Right arrow key.
+        movePlayer(1);
+      } else if(keyCode === 40) { // Down arrow key.
+        dropPlayer();
+      }
+    }
+  };
+
   return (
-    <StyledTetrisWrapper>
+    <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)}>
       <StyledTetris>
         <Stage stage={stage} />
         <aside>
@@ -37,7 +76,7 @@ const Tetris = () => {
               <Display text="Level" />
             </div>
           )}
-          <StartButton />
+          <StartButton callback={startGame} />
         </aside>
       </StyledTetris>
       

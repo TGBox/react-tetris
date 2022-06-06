@@ -43,9 +43,9 @@ export const TETRISBLOCKS = {
   },
   T: {
     shape: [
-      [0, 0, 0],
       ["T", "T", "T"],
-      [0, "T", 0]
+      [0, "T", 0],
+      [0, 0, 0]
     ], 
     color: "123, 66, 205",
   },
