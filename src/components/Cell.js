@@ -10,4 +10,5 @@ const Cell = ({ type }) => (
   <StyledCell type={type} color={TETRISBLOCKS[type].color} />
 );
 
-export default Cell;
+// Will enable react to only rerender the changing cells to improve performance.
+export default React.memo(Cell);
