@@ -4,9 +4,7 @@ export const STAGE_HEIGHT = 20;
 
 // Creates the initial stage with multidimensional arrays, filled with empty tetrisblocks.
 export const createStage = () => 
-  Array.from(Array(STAGE_HEIGHT), () => 
-    new Array(STAGE_WIDTH).fill([0, "clear"])
-  )
+  Array.from(Array(STAGE_HEIGHT), () => Array(STAGE_WIDTH).fill([0, "clear"]));
 
 // Collision detection that utilizes the player, the current game stage and the desired move set.
 export const checkForCollision = (player, stage, { x: moveX, y: moveY }) => {
@@ -25,4 +23,5 @@ export const checkForCollision = (player, stage, { x: moveX, y: moveY }) => {
       }
     }
   }
+  return false;
 };

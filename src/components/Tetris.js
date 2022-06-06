@@ -27,7 +27,7 @@ const Tetris = () => {
 
   // Handles player movement on the horizontal axis.
   const movePlayer = dir => {
-    if(!checkForCollision(player, stage, { x: dir, y: 0})) {
+    if(!checkForCollision(player, stage, { x: dir, y: 0 })) {
       updatePlayerPos({ x: dir, y: 0 });
     }
   };
@@ -57,6 +57,7 @@ const Tetris = () => {
 
   // Handles the press of the down arrow key to speed up the falling tetris block.
   const dropPlayer = () => {
+    setDropTime(null);
     drop();
   };
 
