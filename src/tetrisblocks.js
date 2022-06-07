@@ -8,7 +8,7 @@ export const TETRISBLOCKS = {
       [0, "I", 0, 0],
       [0, "I", 0, 0]
     ], 
-    color: "80, 227, 230",
+    color: "55, 235, 233",
   },
   J: {
     shape: [
@@ -16,7 +16,7 @@ export const TETRISBLOCKS = {
       [0, "J", 0],
       ["J", "J", 0]
     ], 
-    color: "35, 88, 222",
+    color: "235, 55, 222",
   },
   L: {
     shape: [
@@ -24,14 +24,14 @@ export const TETRISBLOCKS = {
       [0, "L", 0],
       [0, "L", "L"]
     ], 
-    color: "222, 155, 33",
+    color: "88, 236, 59",
   },
   O: {
     shape: [
       ["O", "O"],
       ["O", "O"]
     ], 
-    color: "234, 222, 6",
+    color: "234, 222, 55",
   },
   S: {
     shape: [
@@ -39,7 +39,7 @@ export const TETRISBLOCKS = {
       ["S", "S", 0],
       [0, 0, 0]
     ], 
-    color: "44, 222, 56",
+    color: "44, 55, 250",
   },
   T: {
     shape: [
@@ -47,7 +47,7 @@ export const TETRISBLOCKS = {
       [0, "T", 0],
       [0, 0, 0]
     ], 
-    color: "123, 66, 205",
+    color: "190, 111, 5",
   },
   Z: {
     shape: [

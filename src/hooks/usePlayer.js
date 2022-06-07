@@ -6,7 +6,7 @@ import { TETRISBLOCKS, randomTetrisblock } from "../tetrisblocks";
 export const usePlayer = () => {
   const [player, setPlayer] = useState({
     pos: { x: 0, y: 0 },
-    tetrisblocks: TETRISBLOCKS[0].shape,
+    tetrisblock: TETRISBLOCKS[0].shape,
     collided: false,
   });
 
@@ -29,15 +29,15 @@ export const usePlayer = () => {
   // Will rotate the tetrisblock of the player in the game.
   const playerRotate = (stage, dir) => {
     const clonedPlayer = JSON.parse(JSON.stringify(player));
-    clonedPlayer.tetrisblocks = rotate(clonedPlayer.tetrisblocks, dir);
+    clonedPlayer.tetrisblock = rotate(clonedPlayer.tetrisblock, dir);
     // Position collision check on rotation.
     const pos = clonedPlayer.pos.x;
     let offset = 1;
     while(checkForCollision(clonedPlayer, stage, { x: 0, y: 0})){
       clonedPlayer.pos.x += offset;
       offset = -(offset + (offset > 0 ? 1 : -1));
-      if (offset > clonedPlayer.tetrisblocks[0].length) {
-        rotate(clonedPlayer.tetrisblocks, -dir);
+      if (offset > clonedPlayer.tetrisblock[0].length) {
+        rotate(clonedPlayer.tetrisblock, -dir);
         clonedPlayer.pos.x = pos;
         return;
       }
@@ -59,7 +59,7 @@ export const usePlayer = () => {
   const resetPlayer = useCallback(() => {
     setPlayer({
       pos: { x: STAGE_WIDTH / 2 - 2, y: 0 },
-      tetrisblocks: randomTetrisblock().shape,
+      tetrisblock: randomTetrisblock().shape,
       collided: false,
     });
   }, []);

@@ -29,7 +29,7 @@ export const useStage = (player, resetPlayer) => {
       );
 
       // Then we draw the tetrisblock according to the object at hand.
-      player.tetrisblocks.forEach((row, y) => {
+      player.tetrisblock.forEach((row, y) => {
         row.forEach((value, x) => {
           if(value !== 0) {
             newStage[y + player.pos.y][x + player.pos.x] = [
@@ -50,7 +50,7 @@ export const useStage = (player, resetPlayer) => {
     };
 
     setStage(prev => updateStage(prev));
-  }, [player.pos.x, player.pos.y, player.collided, player.tetrisblocks, resetPlayer]);
+  }, [player.pos.x, player.pos.y, player.collided, player.tetrisblock, resetPlayer]);
 
   return [stage, setStage, rowsCleared];
 };
