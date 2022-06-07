@@ -72,7 +72,6 @@ const Tetris = () => {
   const keyUp = ({ keyCode }) => {
     if(!gameOver) {
       if(keyCode === 40) {
-        console.log("interval on");
         setDropTime(1000 / (level + 1) + 200);
       }
     }
@@ -80,7 +79,6 @@ const Tetris = () => {
 
   // Handles the press of the down arrow key to speed up the falling tetris block.
   const dropPlayer = () => {
-    console.log("interval off");
     // Will stop the implicit dropping.
     setDropTime(null);
     drop();
@@ -116,7 +114,7 @@ const Tetris = () => {
         <Stage stage={stage} />
         <aside>
           {gameOver ? (
-            <Display gameOver={gameOver} text="Game Over" /> 
+            <Display gameOver={gameOver} text={`Game Over! Score: ${score}`} /> 
           ) : (
             <div>
               <Display text={`Score: ${score}`} />
